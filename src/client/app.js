@@ -57,10 +57,8 @@ export default class App extends Component {
       this.setState({ ...this.state, isLoading: false, isProcessing: true, showPreview: true });
       
       try {
-        // const response = await axios.post('/images', { remoteImage: url });
-        // this.setState({ ...this.state, pics: response.data });
-        this.setState({ ...this.state, pics: { ...this.state.pics, large: { type: 'png', url: 'http://i.imgur.com/i5E1fJx.png' }} });
-        
+        const response = await axios.post('/images', { remoteImage: url });
+        this.setState({ ...this.state, pics: response.data });
       } catch(e) {
         console.error(e);
         this.setState({ ...this.state, error: 'Oops! We could not process that image', showPreview: false });

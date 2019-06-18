@@ -39,7 +39,8 @@ WORKDIR /usr/src/app
 
 COPY ./src/server ./
 
-RUN mkdir -p images/{small,medium,large}
+RUN mkdir -p ./images/small ./images/medium ./images/large &&\
+  chmod -R 775 ./images
 
 # Copy built files
 COPY --from=vendor /app/vendor/ ./vendor/

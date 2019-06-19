@@ -13,7 +13,22 @@ $klein->respond('GET', '/?[:asset]?', function($request, $response) {
   } else {
     $filename = './public/' . $request->asset;
 
-    $mime = mime_content_type($filename);
+    // Define custom mime types because magic mime is currently not present
+    $ext = strtolower(array_pop(explode('.',$request->asset)));
+    $mime_types = array(
+      'txt' => 'text/plain',
+      'htm' => 'text/html',
+      'html' => 'text/html',
+      'css' => 'text/css',
+      'js' => 'application/javascript',
+      'json' => 'application/json',
+    );
+
+    $mime = mime_content_type($filename); // Just returns text/plain because missing magic mime
+    if (array_key_exists($ext, $mime_types)) {
+      $mime = $mime_types[$ext];
+    }
+
     $response->header('Content-Type', $mime);
     $response->sendHeaders();
 

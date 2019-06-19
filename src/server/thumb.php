@@ -49,6 +49,7 @@ function thumbRemoteImage($url, $sizes) {
 
     switch($ext) {
       case 'jpg':
+        imagecopyresampled( $thumb, $img, 0,0,0,0, $nWidth, $nHeight, $oWidth, $oHeight);
         imagejpeg($thumb, $save);
         break;
       case 'png':
@@ -77,7 +78,12 @@ function thumbRemoteImage($url, $sizes) {
 
     imagedestroy($thumb);
 
-    $result[$size] = array('type' => $ext, 'url' => $newurl);
+    $result[$size] = array(
+      'type' => $ext, 
+      'url' => $newurl, 
+      'filesize' => filesize($save),
+      'dimensions' => $dimensions
+    );
   }
 
   imagedestroy($img);

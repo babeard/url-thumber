@@ -16,7 +16,6 @@ const initState = {
   isProcessing: false,
   showPreview: false,
   pics: {
-    // small: { type: 'png', url: 'http://i.imgur.com/i5E1fJx.png' },
     small: null,
     medium: null,
     large: null
@@ -55,7 +54,7 @@ export default class App extends Component {
       document.body.style.setProperty('--imagePreview', `url(${url})`);
 
       this.setState({ ...this.state, isLoading: false, isProcessing: true, showPreview: true });
-      
+
       try {
         const response = await axios.post('/images', { remoteImage: url });
         this.setState({ ...this.state, pics: response.data });
@@ -86,10 +85,10 @@ export default class App extends Component {
   }
 
   render() {
-    
+
     const { error, pics, isLoading, isProcessing } = this.state;
 
-    let statusIcon = isLoading ? <LoadingIcon /> : null;
+    let statusIcon = isLoading || isProcessing ? <LoadingIcon /> : null;
     statusIcon = pics.large ? <CheckIcon width="16px" height="16px" /> : statusIcon;
     statusIcon = error ?  <AlertIcon width="16px" height="16px" /> : statusIcon;
 
@@ -123,7 +122,15 @@ export default class App extends Component {
           </section>
 
           <ul className="sizes">
-            {Object.keys(pics).map((p, i) => pics[p] ? <ThumbItems size={p} url={pics[p].url} type={pics[p].type} key={i} /> : null)}
+            {Object.keys(pics).map((p, i) => pics[p] ?
+              <ThumbItems
+                dimensions={pics[p].dimensions}
+                size={p}
+                filesize={pics[p].filesize}
+                url={pics[p].url}
+                type={pics[p].type}
+                key={i}
+              /> : null)}
           </ul>
         </div>
       </main>

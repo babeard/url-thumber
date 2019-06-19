@@ -36,29 +36,41 @@ function thumbRemoteImage($url, $sizes) {
   $result = [];
   foreach($sizes as $size => $dimensions) {
 
-    $thumb = imagecreatetruecolor($dimensions[0], $dimensions[1]);
-
-    // Turn off alpha blending
-    imagealphablending($thumb, false);
-
-    imagecopyresized($thumb, $img, 0, 0, 0, 0, $dimensions[0], $dimensions[1], $oWidth, $oHeight);
-
     // Hash url for filename in case of collision.
     // Example `a.com/cat.jpg` <-> `b.com/cat.jpg` will collide
     // if we save plain filename `cat.jpg` on fs.
     $newurl = 'images/' . $size . '/' . md5($url) . '.' . $ext;
     $save = __DIR__ . '/' . $newurl;
+    
+    $nWidth = $dimensions[0];
+    $nHeight = $dimensions[1];
+
+    $thumb = imagecreatetruecolor($nWidth, $nHeight);
 
     switch($ext) {
       case 'jpg':
         imagejpeg($thumb, $save);
         break;
       case 'png':
+        imagealphablending($thumb, false);
         imagesavealpha($thumb, true);
+
+        imagecopyresampled( $thumb, $img, 0,0,0,0, $nWidth, $nHeight, $oWidth, $oHeight);
+
         imagepng($thumb, $save);
         break;
       case 'gif':
-        imagesavealpha($thumb, true);
+        $transparency = imagecolortransparent($img);
+        $palletsize = imagecolorstotal($img);
+
+        if ($transparency >= 0 && $transparency < $palletsize) {
+          $tcolor  = imagecolorsforindex($img, $transparency);
+          $transparency = imagecolorallocate($thumb, $tcolor['red'], $tcolor['green'], $tcolor['blue']);
+          imagefill($thumb, 0, 0, $transparency);
+          imagecolortransparent($thumb, $transparency);
+        }
+
+        imagecopyresampled($thumb, $img, 0,0,0,0, $nWidth, $nHeight, $oWidth, $oHeight);
         imagegif($thumb, $save);
         break;
     }

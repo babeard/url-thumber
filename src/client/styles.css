@@ -1,0 +1,180 @@
+html {
+  height: 100%;
+  box-sizing: border-box;
+  font-family: 'Archivo', sans-serif;
+}
+
+body {
+  background: #1FA2FF;
+  background: -webkit-linear-gradient(to right, #A6FFCB, #12D8FA, #1FA2FF);
+  background: linear-gradient(to right, #A6FFCB, #12D8FA, #1FA2FF);
+  margin-top: 50px;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#app {
+  display: flex;
+  justify-content: center;
+}
+
+main {
+  width: 600px;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 50px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.app__input-label-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app__input-label {
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #A0AEC0;
+  font-family: "Karla", sans-serif;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  height: 24px;
+  transition: all 0.2s ease;
+}
+
+main.error .app__input-label {
+  color: #F56565;
+}
+
+main.loaded .app__input-label {
+  color: #48BB78;
+}
+
+.app__status-text {
+  color: #A0AEC0;
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+main .app__input-container {
+  padding: 30px 20px;
+  border: 2px solid #EDF2F7;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+main.loading .app__input-container {
+  background-color: #E2E8F0;
+}
+
+main.loaded .app__input-container {
+  border-color: #48BB78;
+  background-color: #48BB78;
+  color: #fff;
+}
+
+main.error .app__input-container {
+  border-color: #F56565;
+  background-color: #F56565;
+}
+
+#imageInput {
+  width: 100%;
+  background-color: transparent;
+  border-color: transparent;
+  text-align: center;
+  font-size: 1.3rem;
+  color: #4A5568;
+  padding: 2px 0;
+  transition: color 0.2s ease;
+}
+
+#imageInput::placeholder {
+  opacity: 1;
+  color: #A0AEC0;
+  transition: color 0.2s ease;
+}
+
+main.loaded #imageInput,
+main.error #imageInput,
+main.loaded #imageInput::placeholder,
+main.error #imageInput::placeholder {
+  color: #fff;
+}
+
+.app__preview-container {
+  display:flex;
+  justify-content: center;
+}
+
+.app__preview-container div {
+  transition: all 0.2s linear;
+  background-image: var(--imagePreview);
+  background-size: cover;
+  background-position: center;
+  height: 0px;
+  width: 0px;
+  border-radius: 8px;
+  filter: grayscale(100%) blur(1px);
+}
+
+main.loaded .app__preview-container div {
+  filter: grayscale(0%);
+}
+
+main.loaded .app__preview-container div {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  height: 250px;
+  width: 100%;
+}
+
+ul.sizes li { 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 8px;
+}
+
+ul.sizes li a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul.sizes li .title {
+  color: #A0AEC0;
+  margin-bottom: 3px;
+}
+
+ul.sizes li .info {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: #4A5568;
+}
+
+svg.zoom-in {
+  animation: zoomtilt .5s ease-in-out;
+}
+
+@keyframes zoomtilt {
+  0% {
+    transform: rotate(0deg) scale(0);
+  }
+  50% {
+    transform: rotate(5deg) scale(1.3);
+  }
+  100% {
+      transform: rotate(0deg) scale(1);
+  }
+}

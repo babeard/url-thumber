@@ -1,6 +1,6 @@
 import React from "react";
 
-import DownloadIcon from "./svg/downloadIcon";
+import DownloadIcon from "./svg/DownloadIcon";
 import humanFileSize from "../utils/humanFileSize";
 
 export default ({url, size, filesize, dimensions, type}) => {

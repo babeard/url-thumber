@@ -163,6 +163,17 @@ ul.sizes li .info {
   color: #4A5568;
 }
 
+div.note {
+  color: #A0AEC0;
+  margin-top: 70px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+div.note a {
+  margin: 0 4px;
+}
+
 svg.zoom-in {
   animation: zoomtilt .5s ease-in-out;
 }

@@ -153,6 +153,13 @@ export default class App extends Component {
             : null
           )}
         </ul>
+        <div className="note">
+          Only images from 
+          <a href="https://unsplash.com" rel="noopener" target="_blank">
+            unsplash.com
+          </a> 
+          will be accepted.
+        </div>
       </main>
     );
   }

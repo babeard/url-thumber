@@ -48,6 +48,8 @@ $klein->respond('GET', '/images/[:size]/[:filename]', function($request, $respon
 
 $klein->respond('POST', '/images', function($request, $response) {
 
+  $accepted_domains = ['https://babeard.com', 'https://images.unsplash.com'];
+
   $sizes = [
     'small' => [300, 300],
     'medium' => [600, 600],
@@ -62,6 +64,18 @@ $klein->respond('POST', '/images', function($request, $response) {
   }
 
   $url = $body['remoteImage'];
+  $is_acceptable = false;
+  foreach($accepted_domains as $domain) {
+    if (stripos(substr($url, 0, 30), $domain) !== false) {
+      $is_acceptable = true;
+    }
+  }
+
+  if (!$is_acceptable){
+    $response->code(403); // Forbidden
+    return;
+  }
+
   try {
     $results = thumbRemoteImage($url, $sizes);
   } catch (Exception $e) {
